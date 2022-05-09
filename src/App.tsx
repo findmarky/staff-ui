@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col } from 'react-bootstrap';
+import { UserInfo } from "./UserModel";
 
 const fetchRandomData = async (pageNumber: number) => {
   const randomData = await axios
@@ -22,33 +23,10 @@ const getFullUserName = (userInfo: UserInfo): string => {
   return `${first} ${last}`;
 };
 
-interface UserName {
-  first: string;
-  last: string;
-  title: string;
-}
-
-interface UserPicture {
-  thumbnail: string;
-}
-
-interface Login {
-  uuid: string;
-  username: string;
-}
-
-interface UserInfo {
-  name: UserName;
-  login: Login;
-  email: string;
-  phone: string;
-  gender: string;
-  picture: UserPicture;
-}
-
 export default function App() {
   const [userInfos, setUserInfos] = useState<UserInfo[]>([]);
   const [nextPageNumber, setNextPageNumber] = useState(1);
+  const [selectedUser, setSelectedUser] = useState<UserInfo | null>(null);
 
   const fetchNextUser = async () => {
     const randomData = await fetchRandomData(nextPageNumber);
@@ -65,30 +43,50 @@ export default function App() {
     fetchNextUser();
   }, []);
 
-  return (
-    <div className="App">
-      <Table striped hover variant="dark">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {userInfos.map((userInfo: UserInfo) => (
-            <tr key={userInfo.login.uuid}>
-              <td>
-                <img alt="" src={userInfo.picture.thumbnail}></img>
-              </td>
-              <td>{getFullUserName(userInfo)}</td>
-              <td>{userInfo.email}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+  const onUserClicked = (userInfo: UserInfo) => {
+    console.log(`Clicked ${userInfo.email}`)
+    setSelectedUser(userInfo);
+  }
 
-      <Button onClick={() => fetchNextUser()} variant="dark">Fetch Next User</Button>
-    </div>
+  return (
+    <Container>
+      <Row className='mt-5'>
+        <Col sm={8}>
+          <Table striped hover variant="dark">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userInfos.map((userInfo: UserInfo) => (
+                <tr key={userInfo.login.uuid} onClick={() => onUserClicked(userInfo)}>
+                  <td>
+                    <img alt="" src={userInfo.picture.thumbnail}></img>
+                  </td>
+                  <td>{getFullUserName(userInfo)}</td>
+                  <td>{userInfo.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Col>
+        {selectedUser &&
+          <Col sm={4}>User Details
+            <ul>
+              <li>User Name: {selectedUser.login.username}</li>
+              <li>Phone: {selectedUser.phone}</li>
+              <li>Gender: {selectedUser.gender}</li>
+            </ul>
+          </Col>
+        }
+      </Row>
+      <Row>
+        <Col sm={8}>
+          <Button onClick={() => fetchNextUser()} variant="dark">Fetch Next User</Button></Col>
+      </Row>
+    </Container>
   );
 }
