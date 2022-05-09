@@ -31,19 +31,26 @@ interface UserPicture {
   thumbnail: string;
 }
 
+interface Login {
+  uuid: string;
+  username: string;
+}
+
 interface UserInfo {
   name: UserName;
+  login: Login;
+  email: string;
+  phone: string;
+  gender: string;
   picture: UserPicture;
 }
 
 export default function App() {
-  const [counter, setCounter] = useState(0);
   const [userInfos, setUserInfos] = useState<UserInfo[]>([]);
   const [nextPageNumber, setNextPageNumber] = useState(1);
 
   const fetchNextUser = async () => {
     const randomData = await fetchRandomData(nextPageNumber);
-
     if (randomData === undefined) {
       return;
     }
@@ -59,16 +66,28 @@ export default function App() {
 
   return (
     <div className="App">
-      <p>{counter}</p>
-      <button onClick={() => setCounter(counter + 1)}>Increase Counter</button>
-      <button onClick={() => setCounter(0)}>Reset Counter</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {userInfos.map((userInfo: UserInfo) => (
+            <tr key={userInfo.login.uuid}>
+              <td>
+                <img alt="" src={userInfo.picture.thumbnail}></img>
+              </td>
+              <td>{getFullUserName(userInfo)}</td>
+              <td>{userInfo.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <button onClick={() => fetchNextUser()}>Fetch Next User</button>
-      {userInfos.map((userInfo: UserInfo, idx: number) => (
-        <div key={idx}>
-          <p>{getFullUserName(userInfo)}</p>
-          <img alt="" src={userInfo.picture.thumbnail}></img>
-        </div>
-      ))}
     </div>
   );
 }

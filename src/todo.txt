@@ -1,0 +1,12 @@
+TODOs
+
+- table styles
+- table sort
+- table max height
+
+- sticking load next button to bottom of table
+
+- click on row to show details
+- details panel (float right side of table)
+
+- search
