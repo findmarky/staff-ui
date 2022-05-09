@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
+import { Table, Button } from 'react-bootstrap';
 
 const fetchRandomData = async (pageNumber: number) => {
   const randomData = await axios
@@ -66,7 +67,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <table>
+      <Table striped hover variant="dark">
         <thead>
           <tr>
             <th>Image</th>
@@ -85,9 +86,9 @@ export default function App() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
 
-      <button onClick={() => fetchNextUser()}>Fetch Next User</button>
+      <Button onClick={() => fetchNextUser()} variant="dark">Fetch Next User</Button>
     </div>
   );
 }
