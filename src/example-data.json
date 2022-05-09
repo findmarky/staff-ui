@@ -1,0 +1,66 @@
+{
+    "results": [
+        {
+            "gender": "male",
+            "name": {
+                "title": "Mr",
+                "first": "Nooa",
+                "last": "Wallo"
+            },
+            "location": {
+                "street": {
+                    "number": 8385,
+                    "name": "Aleksanterinkatu"
+                },
+                "city": "Nilsiä",
+                "state": "North Karelia",
+                "country": "Finland",
+                "postcode": 94381,
+                "coordinates": {
+                    "latitude": "-8.7390",
+                    "longitude": "-119.5785"
+                },
+                "timezone": {
+                    "offset": "+1:00",
+                    "description": "Brussels, Copenhagen, Madrid, Paris"
+                }
+            },
+            "email": "nooa.wallo@example.com",
+            "login": {
+                "uuid": "af7d085f-526c-4f8a-8ba3-f29e559d8781",
+                "username": "redduck974",
+                "password": "quality",
+                "salt": "ukAW0IQs",
+                "md5": "60f184625a4963d067d21485c0334cf2",
+                "sha1": "01717f56b3b5db80c53fc344d95185b94bfc516d",
+                "sha256": "3b6d330323c7cf0df122d5063267c09a6e9b2507aafea6364ca693a19e2afff1"
+            },
+            "dob": {
+                "date": "1954-09-07T17:40:21.862Z",
+                "age": 68
+            },
+            "registered": {
+                "date": "2012-08-22T16:17:59.188Z",
+                "age": 10
+            },
+            "phone": "04-368-545",
+            "cell": "040-103-08-96",
+            "id": {
+                "name": "HETU",
+                "value": "NaNNA781undefined"
+            },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/men/89.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/men/89.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/89.jpg"
+            },
+            "nat": "FI"
+        }
+    ],
+    "info": {
+        "seed": "c2e053bf5388af13",
+        "results": 1,
+        "page": 1,
+        "version": "1.3"
+    }
+}

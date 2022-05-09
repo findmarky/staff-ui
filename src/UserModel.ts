@@ -1,4 +1,3 @@
-
 export interface UserName {
     first: string;
     last: string;
@@ -7,6 +6,8 @@ export interface UserName {
 
 export interface UserPicture {
     thumbnail: string;
+    medium: string;
+    large: string;
 }
 
 export interface Login {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { Table, Button, Container, Row, Col } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col, Card, ButtonGroup } from 'react-bootstrap';
 import { UserInfo } from "./UserModel";
 
 const fetchRandomData = async (pageNumber: number) => {
@@ -16,11 +16,11 @@ const fetchRandomData = async (pageNumber: number) => {
   return randomData;
 };
 
-const getFullUserName = (userInfo: UserInfo): string => {
+const getFullUserName = (userInfo: UserInfo, includeTitle: boolean = false): string => {
   const {
-    name: { first, last },
+    name: { first, last, title },
   } = userInfo;
-  return `${first} ${last}`;
+  return includeTitle ? `${title} ${first} ${last}` : `${first} ${last}`;
 };
 
 export default function App() {
@@ -44,7 +44,6 @@ export default function App() {
   }, []);
 
   const onUserClicked = (userInfo: UserInfo) => {
-    console.log(`Clicked ${userInfo.email}`)
     setSelectedUser(userInfo);
   }
 
@@ -74,12 +73,23 @@ export default function App() {
           </Table>
         </Col>
         {selectedUser &&
-          <Col sm={4}>User Details
-            <ul>
-              <li>User Name: {selectedUser.login.username}</li>
-              <li>Phone: {selectedUser.phone}</li>
-              <li>Gender: {selectedUser.gender}</li>
-            </ul>
+          <Col sm={4}>
+            <Card style={{ width: '18rem' }} bg='dark' text='white'>
+              <Card.Header>Details</Card.Header>
+              <Card.Img variant="top" src={selectedUser.picture.large} />
+              <Card.Body>
+                <Card.Title>{getFullUserName(selectedUser, true)}</Card.Title>
+                <Card.Text>
+                  Phone: {selectedUser.phone}<br />
+                  Gender: {selectedUser.gender}<br />
+                  User Name: {selectedUser.login.username}
+                </Card.Text>
+                <ButtonGroup size="sm">
+                  <Button variant="secondary">Something</Button>
+                  <Button variant="danger">Delete</Button>
+                </ButtonGroup>
+              </Card.Body>
+            </Card>
           </Col>
         }
       </Row>
