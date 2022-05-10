@@ -2,8 +2,8 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders increase counter button', () => {
+test('renders Fetch Next User button', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Increase Counter/i);
+  const linkElement = screen.getByText(/Fetch Next User/i);
   expect(linkElement).toBeInTheDocument();
 });

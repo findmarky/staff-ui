@@ -53,6 +53,10 @@ export default function App() {
     setSelectedUser(null);
   };
 
+  const confirmUserDelete = (userInfo: UserInfo) => {
+    deleteUser(userInfo.login.uuid)  
+  };
+
   return (
     <Container>
       <Row className='mt-5'>
@@ -91,7 +95,7 @@ export default function App() {
                   Gender: {selectedUser.gender}               
                 </Card.Text>              
                   <Button variant="secondary">Something</Button>
-                  <Button className="float-end" variant="danger" onClick={() => {deleteUser(selectedUser.login.uuid)}}>Delete</Button>
+                  <Button className="float-end" variant="danger" onClick={() => {confirmUserDelete(selectedUser)}}>Delete</Button>
               </Card.Body>
             </Card>
           </Col>
