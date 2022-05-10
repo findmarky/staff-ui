@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { Table, Button, Container, Row, Col, Card, ButtonGroup } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { UserInfo } from "./UserModel";
 
 const fetchRandomData = async (pageNumber: number) => {
@@ -47,6 +47,12 @@ export default function App() {
     setSelectedUser(userInfo);
   }
 
+  const deleteUser = (uuid : string) => {
+    let filteredUserInfos = userInfos.filter(item => item.login.uuid !== uuid);
+    setUserInfos(filteredUserInfos);
+    setSelectedUser(null);
+  };
+
   return (
     <Container>
       <Row className='mt-5'>
@@ -75,19 +81,17 @@ export default function App() {
         {selectedUser &&
           <Col sm={4}>
             <Card style={{ width: '18rem' }} bg='dark' text='white'>
-              <Card.Header>Details</Card.Header>
+              <Card.Header>User Details</Card.Header>
               <Card.Img variant="top" src={selectedUser.picture.large} />
               <Card.Body>
                 <Card.Title>{getFullUserName(selectedUser, true)}</Card.Title>
                 <Card.Text>
+                  User Name: {selectedUser.login.username}<br />
                   Phone: {selectedUser.phone}<br />
-                  Gender: {selectedUser.gender}<br />
-                  User Name: {selectedUser.login.username}
-                </Card.Text>
-                <ButtonGroup size="sm">
+                  Gender: {selectedUser.gender}               
+                </Card.Text>              
                   <Button variant="secondary">Something</Button>
-                  <Button variant="danger">Delete</Button>
-                </ButtonGroup>
+                  <Button className="float-end" variant="danger" onClick={() => {deleteUser(selectedUser.login.uuid)}}>Delete</Button>
               </Card.Body>
             </Card>
           </Col>

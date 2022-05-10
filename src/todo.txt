@@ -1,5 +1,6 @@
 TODOs
 
+- delete user confirmation 
 - table styles
 - table sort
 - table max height
