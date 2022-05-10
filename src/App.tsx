@@ -49,12 +49,12 @@ export default function App() {
 
   const deleteUser = (uuid : string) => {
     let filteredUserInfos = userInfos.filter(item => item.login.uuid !== uuid);
-    setUserInfos(filteredUserInfos);
-    setSelectedUser(null);
+    setUserInfos(filteredUserInfos);   
   };
 
   const confirmUserDelete = (userInfo: UserInfo) => {
-    deleteUser(userInfo.login.uuid)  
+    deleteUser(userInfo.login.uuid);
+    setSelectedUser(null); 
   };
 
   return (
