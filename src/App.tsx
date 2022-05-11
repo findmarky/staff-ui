@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { Table, Button, Container, Row, Col, Card, Navbar, Nav, } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col,} from 'react-bootstrap';
 import { UserInfo } from "./UserModel";
 import { ConfirmDeleteModal } from "./Components/ConfirmDeleteModal";
 import { Navigation } from "./Components/Navigation";
