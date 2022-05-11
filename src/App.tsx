@@ -5,6 +5,7 @@ import { Table, Button, Container, Row, Col, Card, Navbar, Nav, } from 'react-bo
 import { UserInfo } from "./UserModel";
 import { ConfirmDeleteModal } from "./Components/ConfirmDeleteModal";
 import { Navigation } from "./Components/Navigation";
+import { UserCard } from "./Components/UserCard";
 
 const fetchRandomData = async (pageNumber: number) => {
   const randomData = await axios
@@ -101,29 +102,14 @@ export default function App() {
               </tbody>
             </Table>
           </Col>
-
-          {selectedUser &&
-            <Col sm={4}>
-              <Card style={{ width: '18rem' }} bg='dark' text='white'>
-                <Card.Header>User Details</Card.Header>
-                <Card.Img variant="top" src={selectedUser.picture.large} />
-                <Card.Body>
-                  <Card.Title>{getFullUserName(selectedUser, true)}</Card.Title>
-                  <Card.Text>
-                    User Name: {selectedUser.login.username}<br />
-                    Phone: {selectedUser.phone}<br />
-                    Gender: {selectedUser.gender}
-                  </Card.Text>
-                  <Button variant="secondary">Something</Button>
-                  <Button className="float-end" variant="danger" onClick={() => confirmUserDelete()}>Delete</Button>
-                </Card.Body>
-              </Card>
-            </Col>
+          {
+            selectedUser && <UserCard user={selectedUser} title={getFullUserName(selectedUser, true)} header={"User Details"} onDelete={confirmUserDelete}></UserCard>
           }
         </Row>
         <Row>
           <Col sm={8}>
-            <Button onClick={() => fetchNextUser()} variant="dark">Fetch Next User</Button></Col>
+            <Button onClick={() => fetchNextUser()} variant="dark">Fetch Next User</Button>
+          </Col>
         </Row>
       </Container>
     </>
