@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { Table, Button, Container, Row, Col, Card, Modal, Navbar, Nav, } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col, Card, Navbar, Nav, } from 'react-bootstrap';
 import { UserInfo } from "./UserModel";
+import { ConfirmDeleteModal } from "./Components/ConfirmDeleteModal";
 
 const fetchRandomData = async (pageNumber: number) => {
   const randomData = await axios
@@ -27,7 +28,7 @@ export default function App() {
   const [userInfos, setUserInfos] = useState<UserInfo[]>([]);
   const [nextPageNumber, setNextPageNumber] = useState(1);
   const [selectedUser, setSelectedUser] = useState<UserInfo | null>(null);
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
   const fetchNextUser = async () => {
     const randomData = await fetchRandomData(nextPageNumber);
@@ -44,9 +45,7 @@ export default function App() {
     fetchNextUser();
   }, []);
 
-  const onUserClicked = (userInfo: UserInfo) => {
-    setSelectedUser(userInfo);
-  }
+  const onUserClicked = (userInfo: UserInfo) => setSelectedUser(userInfo); 
 
   const deleteUser = (uuid: string) => {
     let filteredUserInfos = userInfos.filter(item => item.login.uuid !== uuid);
@@ -54,51 +53,20 @@ export default function App() {
     setSelectedUser(null);
   };
 
-  const showConfirmDeleteUserModal = () => {
-    setShowDeleteAlert(true);
+  const confirmUserDelete = () => setShowConfirmDeleteModal(true);
+  const handleConfirmDeleteModalClose = () => setShowConfirmDeleteModal(false);
+
+  const handleConfirmDeleteModalDelete = () => {
+    deleteUser(selectedUser!.login.uuid);
+    setShowConfirmDeleteModal(false);
   };
 
-  function DeleteModal() {
-    const handleClose = () => setShowDeleteAlert(false);
-
-    const handleDelete = () => {
-      deleteUser(selectedUser!.login.uuid);
-      setShowDeleteAlert(false);
-    };
-
-    const getUserName = (): string => {
-      return selectedUser ? getFullUserName(selectedUser) : ""
-    };
-
-    return (
-      <>
-        <Modal
-          show={showDeleteAlert}
-          onHide={handleClose}
-          backdrop="static"
-          keyboard={false}
-          aria-labelledby="contained-modal-title-vcenter"
-          centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Delete User</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Are you sure you would like to delete {getUserName()} ?
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="danger" onClick={handleDelete}>Delete</Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
-  }
+  const getSelectedUserName = (): string => {
+    return selectedUser ? getFullUserName(selectedUser) : ""
+  };
 
   return (
     <>
-
       <Navbar bg="dark" expand="lg" variant="dark" sticky="top">
         <Container>
           <Navbar.Brand href="#home">Application</Navbar.Brand>
@@ -113,7 +81,14 @@ export default function App() {
       </Navbar>
 
       <Container>
-        <DeleteModal></DeleteModal>
+        <ConfirmDeleteModal 
+            show={showConfirmDeleteModal}
+            title="Delete User" 
+            body={`Are you sure you would like to delete ${getSelectedUserName()} ?`} 
+            onHide={handleConfirmDeleteModalClose} 
+            onClose={handleConfirmDeleteModalClose} 
+            onDelete={handleConfirmDeleteModalDelete}>          
+        </ConfirmDeleteModal>
         <Row className='mt-5'>
           <Col sm={8}>
             <Table striped hover variant="dark">
@@ -151,7 +126,7 @@ export default function App() {
                     Gender: {selectedUser.gender}
                   </Card.Text>
                   <Button variant="secondary">Something</Button>
-                  <Button className="float-end" variant="danger" onClick={() => showConfirmDeleteUserModal()}>Delete</Button>
+                  <Button className="float-end" variant="danger" onClick={() => confirmUserDelete()}>Delete</Button>
                 </Card.Body>
               </Card>
             </Col>
