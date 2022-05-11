@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { Table, Button, Container, Row, Col, Card, Modal } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col, Card, Modal, Navbar, Nav, } from 'react-bootstrap';
 import { UserInfo } from "./UserModel";
 
 const fetchRandomData = async (pageNumber: number) => {
@@ -76,7 +76,9 @@ export default function App() {
           show={showDeleteAlert}
           onHide={handleClose}
           backdrop="static"
-          keyboard={false} >
+          keyboard={false}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered>
           <Modal.Header closeButton>
             <Modal.Title>Delete User</Modal.Title>
           </Modal.Header>
@@ -95,55 +97,71 @@ export default function App() {
   }
 
   return (
-    <Container>
-      <DeleteModal></DeleteModal>
-      <Row className='mt-5'>
-        <Col sm={8}>
-          <Table striped hover variant="dark">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {userInfos.map((userInfo: UserInfo) => (
-                <tr key={userInfo.login.uuid} onClick={() => onUserClicked(userInfo)}>
-                  <td>
-                    <img alt="" src={userInfo.picture.thumbnail}></img>
-                  </td>
-                  <td>{getFullUserName(userInfo)}</td>
-                  <td>{userInfo.email}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Col>
+    <>
 
-        {selectedUser &&
-          <Col sm={4}>
-            <Card style={{ width: '18rem' }} bg='dark' text='white'>
-              <Card.Header>User Details</Card.Header>
-              <Card.Img variant="top" src={selectedUser.picture.large} />
-              <Card.Body>
-                <Card.Title>{getFullUserName(selectedUser, true)}</Card.Title>
-                <Card.Text>
-                  User Name: {selectedUser.login.username}<br />
-                  Phone: {selectedUser.phone}<br />
-                  Gender: {selectedUser.gender}
-                </Card.Text>
-                <Button variant="secondary">Something</Button>
-                <Button className="float-end" variant="danger" onClick={() => showConfirmDeleteUserModal()}>Delete</Button>
-              </Card.Body>
-            </Card>
+      <Navbar bg="dark" expand="lg" variant="dark" sticky="top">
+        <Container>
+          <Navbar.Brand href="#home">Application</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="#users">Users</Nav.Link>
+              <Nav.Link href="#other">Other</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+      <Container>
+        <DeleteModal></DeleteModal>
+        <Row className='mt-5'>
+          <Col sm={8}>
+            <Table striped hover variant="dark">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                {userInfos.map((userInfo: UserInfo) => (
+                  <tr key={userInfo.login.uuid} onClick={() => onUserClicked(userInfo)}>
+                    <td>
+                      <img alt="" src={userInfo.picture.thumbnail}></img>
+                    </td>
+                    <td>{getFullUserName(userInfo)}</td>
+                    <td>{userInfo.email}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </Col>
-        }
-      </Row>
-      <Row>
-        <Col sm={8}>
-          <Button onClick={() => fetchNextUser()} variant="dark">Fetch Next User</Button></Col>
-      </Row>
-    </Container>
+
+          {selectedUser &&
+            <Col sm={4}>
+              <Card style={{ width: '18rem' }} bg='dark' text='white'>
+                <Card.Header>User Details</Card.Header>
+                <Card.Img variant="top" src={selectedUser.picture.large} />
+                <Card.Body>
+                  <Card.Title>{getFullUserName(selectedUser, true)}</Card.Title>
+                  <Card.Text>
+                    User Name: {selectedUser.login.username}<br />
+                    Phone: {selectedUser.phone}<br />
+                    Gender: {selectedUser.gender}
+                  </Card.Text>
+                  <Button variant="secondary">Something</Button>
+                  <Button className="float-end" variant="danger" onClick={() => showConfirmDeleteUserModal()}>Delete</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          }
+        </Row>
+        <Row>
+          <Col sm={8}>
+            <Button onClick={() => fetchNextUser()} variant="dark">Fetch Next User</Button></Col>
+        </Row>
+      </Container>
+    </>
   );
 }
