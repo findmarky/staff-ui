@@ -1,13 +1,15 @@
 TODOs
 
-- delete user confirmation 
-- table styles
+- table selected user background color
 - table sort
 - table max height
-
+- table search
 - sticking load next button to bottom of table
 
-- click on row to show details
-- details panel (float right side of table)
 
-- search
+-------------------------------------------------
+                    Features
+-------------------------------------------------
+Add new user.
+Nav bar pages
+Application landing page.
