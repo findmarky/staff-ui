@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { Table, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col, Card, Modal } from 'react-bootstrap';
 import { UserInfo } from "./UserModel";
 
 const fetchRandomData = async (pageNumber: number) => {
@@ -27,6 +27,7 @@ export default function App() {
   const [userInfos, setUserInfos] = useState<UserInfo[]>([]);
   const [nextPageNumber, setNextPageNumber] = useState(1);
   const [selectedUser, setSelectedUser] = useState<UserInfo | null>(null);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   const fetchNextUser = async () => {
     const randomData = await fetchRandomData(nextPageNumber);
@@ -47,18 +48,55 @@ export default function App() {
     setSelectedUser(userInfo);
   }
 
-  const deleteUser = (uuid : string) => {
+  const deleteUser = (uuid: string) => {
     let filteredUserInfos = userInfos.filter(item => item.login.uuid !== uuid);
-    setUserInfos(filteredUserInfos);   
+    setUserInfos(filteredUserInfos);
+    setSelectedUser(null);
   };
 
-  const confirmUserDelete = (userInfo: UserInfo) => {
-    deleteUser(userInfo.login.uuid);
-    setSelectedUser(null); 
+  const showConfirmDeleteUserModal = () => {
+    setShowDeleteAlert(true);
   };
+
+  function DeleteModal() {
+    const handleClose = () => setShowDeleteAlert(false);
+
+    const handleDelete = () => {
+      deleteUser(selectedUser!.login.uuid);
+      setShowDeleteAlert(false);
+    };
+
+    const getUserName = (): string => {
+      return selectedUser ? getFullUserName(selectedUser) : ""
+    };
+
+    return (
+      <>
+        <Modal
+          show={showDeleteAlert}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false} >
+          <Modal.Header closeButton>
+            <Modal.Title>Delete User</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you would like to delete {getUserName()} ?
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="danger" onClick={handleDelete}>Delete</Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
 
   return (
     <Container>
+      <DeleteModal></DeleteModal>
       <Row className='mt-5'>
         <Col sm={8}>
           <Table striped hover variant="dark">
@@ -82,6 +120,7 @@ export default function App() {
             </tbody>
           </Table>
         </Col>
+
         {selectedUser &&
           <Col sm={4}>
             <Card style={{ width: '18rem' }} bg='dark' text='white'>
@@ -92,10 +131,10 @@ export default function App() {
                 <Card.Text>
                   User Name: {selectedUser.login.username}<br />
                   Phone: {selectedUser.phone}<br />
-                  Gender: {selectedUser.gender}               
-                </Card.Text>              
-                  <Button variant="secondary">Something</Button>
-                  <Button className="float-end" variant="danger" onClick={() => {confirmUserDelete(selectedUser)}}>Delete</Button>
+                  Gender: {selectedUser.gender}
+                </Card.Text>
+                <Button variant="secondary">Something</Button>
+                <Button className="float-end" variant="danger" onClick={() => showConfirmDeleteUserModal()}>Delete</Button>
               </Card.Body>
             </Card>
           </Col>
