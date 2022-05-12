@@ -8,7 +8,7 @@ type ConfirmDeleteModalProps = {
   onHide: () => void;
   onClose: () => void;
   onDelete: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export const ConfirmDeleteModal: FunctionComponent<ConfirmDeleteModalProps> = ({

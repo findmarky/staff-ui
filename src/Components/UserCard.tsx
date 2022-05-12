@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Button, Card, Col } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { UserInfo } from "../UserModel";
 
 type UserCardProps = {
