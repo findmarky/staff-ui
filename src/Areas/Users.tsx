@@ -6,9 +6,11 @@ import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal";
 import { UserList } from "../Components/UserList";
 import { UserCard } from "../Components/UserCard";
 
+const userPageSize: number = 10;
+
 const fetchRandomData = async (pageNumber: number) => {
   const randomData = await axios
-    .get(`https://randomuser.me/api?page=${pageNumber}`)
+    .get(`https://randomuser.me/api?results=${userPageSize}&page=${pageNumber}`)
     .then(({ data }) => {
       return data;
     })
@@ -69,7 +71,7 @@ export const Users: FunctionComponent = () => {
   };
 
   return (
-    <>    
+    <>
       <Container>
         <ConfirmDeleteModal
           show={showConfirmDeleteModal}
@@ -100,7 +102,7 @@ export const Users: FunctionComponent = () => {
         <Row>
           <Col sm={8}>
             <Button onClick={() => fetchNextUser()} variant="dark">
-              Fetch Next User
+              Fetch Next {userPageSize} Users
             </Button>
           </Col>
         </Row>
