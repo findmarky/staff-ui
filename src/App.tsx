@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { Table, Button, Container, Row, Col,} from 'react-bootstrap';
+import { Button, Container, Row, Col,} from 'react-bootstrap';
 import { UserInfo } from "./UserModel";
 import { ConfirmDeleteModal } from "./Components/ConfirmDeleteModal";
 import { Navigation } from "./Components/Navigation";
 import { UserCard } from "./Components/UserCard";
+import { UserList } from "./Components/UserList";
 
 const fetchRandomData = async (pageNumber: number) => {
   const randomData = await axios
@@ -19,11 +20,9 @@ const fetchRandomData = async (pageNumber: number) => {
   return randomData;
 };
 
-const getFullUserName = (userInfo: UserInfo, includeTitle: boolean = false): string => {
-  const {
-    name: { first, last, title },
-  } = userInfo;
-  return includeTitle ? `${title} ${first} ${last}` : `${first} ${last}`;
+const getUserFullNameWithTitle = (userInfo: UserInfo): string => {
+  const {name: { first, last, title }, } = userInfo;
+  return `${title} ${first} ${last}`;
 };
 
 export default function App() {
@@ -64,7 +63,7 @@ export default function App() {
   };
 
   const getSelectedUserName = (): string => {
-    return selectedUser ? getFullUserName(selectedUser) : ""
+    return selectedUser ? getUserFullNameWithTitle(selectedUser) : ""
   };
 
   return (
@@ -81,29 +80,13 @@ export default function App() {
         </ConfirmDeleteModal>
         <Row className='mt-5'>
           <Col sm={8}>
-            <Table striped hover variant="dark">
-              <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userInfos.map((userInfo: UserInfo) => (
-                  <tr key={userInfo.login.uuid} onClick={() => onUserClicked(userInfo)}>
-                    <td>
-                      <img alt="" src={userInfo.picture.thumbnail}></img>
-                    </td>
-                    <td>{getFullUserName(userInfo)}</td>
-                    <td>{userInfo.email}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </Col>
+            <UserList users={userInfos} onUserSelected={(user) => onUserClicked(user) }></UserList>
+          </Col> 
           {
-            selectedUser && <UserCard user={selectedUser} title={getFullUserName(selectedUser, true)} header={"User Details"} onDelete={confirmUserDelete}></UserCard>
+            selectedUser &&     
+            <Col sm={4}> 
+              <UserCard user={selectedUser} title={getUserFullNameWithTitle(selectedUser)} header={"User Details"} onDelete={confirmUserDelete}></UserCard>
+            </Col>
           }
         </Row>
         <Row>
