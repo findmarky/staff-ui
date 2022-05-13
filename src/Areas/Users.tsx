@@ -9,7 +9,7 @@ import "./Users.css";
 
 const userPageSize: number = 10;
 
-const fetchRandomData = async (pageNumber: number) => {
+const fetchRandomUserData = async (pageNumber: number) => {
   const randomData = await axios
     .get(`https://randomuser.me/api?results=${userPageSize}&page=${pageNumber}`)
     .then(({ data }) => {
@@ -35,7 +35,7 @@ export const Users: FunctionComponent = () => {
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
   const fetchNextUser = async () => {
-    const randomData = await fetchRandomData(nextPageNumber);
+    const randomData = await fetchRandomUserData(nextPageNumber);
     if (randomData === undefined) {
       return;
     }
@@ -56,6 +56,10 @@ export const Users: FunctionComponent = () => {
 
   const onUserEdit = () => {
     console.log(`Edit user ${selectedUser?.email}`);
+  };
+
+  const onCreateUser = () => {
+    console.log(`Create user`);
   };
 
   const onConfirmDeleteModalClose = () => setShowConfirmDeleteModal(false);
@@ -95,8 +99,11 @@ export const Users: FunctionComponent = () => {
               onUserSelected={(user) => onUserClicked(user)}
             ></UserList>
           </Col>
-          {selectedUser && (
-            <Col sm={4} className="user-details-card-container">
+          <Col sm={4} className="user-details-card-container">
+            <Button style={{ marginLeft: "180px", marginBottom: "10px" }} variant="primary" onClick={onCreateUser}>
+                Create User
+            </Button>
+            {selectedUser && (
               <UserCard
                 user={selectedUser}
                 title={getUserFullNameWithTitle(selectedUser)}
@@ -104,12 +111,12 @@ export const Users: FunctionComponent = () => {
                 onDelete={onUserDelete}
                 onEdit={onUserEdit}
               ></UserCard>
-            </Col>
-          )}
+            )}
+          </Col>
         </Row>
         <Row>
           <Col sm={8}>
-            <Button onClick={() => fetchNextUser()} variant="dark">
+            <Button onClick={() => fetchNextUser()} variant="secondary">
               Fetch Next {userPageSize} Users
             </Button>
           </Col>

@@ -5,9 +5,8 @@
   overflow-y: auto;
 }
 
-.users-list-container { 
-    overflow-y:auto; 
-    max-height:700px;
-    margin-bottom: 25px;
+.users-list-container {
+  overflow-y: auto;
+  max-height: 700px;
+  margin-bottom: 25px;
 }
-
