@@ -5,7 +5,7 @@ import { UserInfo } from "../UserModel";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal";
 import { UserList } from "../Components/UserList";
 import { UserCard } from "../Components/UserCard";
-import "./Users.css"
+import "./Users.css";
 
 const userPageSize: number = 10;
 
@@ -85,7 +85,7 @@ export const Users: FunctionComponent = () => {
           onDelete={handleConfirmDeleteModalDelete}
         ></ConfirmDeleteModal>
         <Row className="mt-5">
-          <Col sm={8} >
+          <Col sm={8} className="users-list">
             <UserList
               users={userInfos}
               onUserSelected={(user) => onUserClicked(user)}
