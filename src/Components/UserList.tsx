@@ -15,8 +15,8 @@ export const UserList: FunctionComponent<UserListProps> = ({users, onUserSelecte
   };
 
   return (
-    <Table striped hover variant="dark">
-      <thead>
+    <Table hover borderless={true} responsive variant="dark">
+      <thead style={{ position: 'sticky', top: 0 }}>
         <tr>
           <th>Image</th>
           <th>Name</th>

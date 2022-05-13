@@ -5,6 +5,7 @@ import { UserInfo } from "../UserModel";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal";
 import { UserList } from "../Components/UserList";
 import { UserCard } from "../Components/UserCard";
+import "./Users.css"
 
 const userPageSize: number = 10;
 
@@ -38,6 +39,7 @@ export const Users: FunctionComponent = () => {
     if (randomData === undefined) {
       return;
     }
+
     const newUserInfos: UserInfo[] = [...userInfos, ...randomData.results];
 
     setUserInfos(newUserInfos);
@@ -59,6 +61,7 @@ export const Users: FunctionComponent = () => {
   };
 
   const confirmUserDelete = () => setShowConfirmDeleteModal(true);
+
   const handleConfirmDeleteModalClose = () => setShowConfirmDeleteModal(false);
 
   const handleConfirmDeleteModalDelete = () => {
@@ -82,14 +85,14 @@ export const Users: FunctionComponent = () => {
           onDelete={handleConfirmDeleteModalDelete}
         ></ConfirmDeleteModal>
         <Row className="mt-5">
-          <Col sm={8}>
+          <Col sm={8} >
             <UserList
               users={userInfos}
               onUserSelected={(user) => onUserClicked(user)}
             ></UserList>
           </Col>
           {selectedUser && (
-            <Col sm={4}>
+            <Col sm={4} className="user-details-card">
               <UserCard
                 user={selectedUser}
                 title={getUserFullNameWithTitle(selectedUser)}
