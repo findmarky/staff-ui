@@ -6,6 +6,7 @@ import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal";
 import { UserList } from "../Components/UserList";
 import { UserCard } from "../Components/UserCard";
 import "./Users.css";
+import { UserForm } from "../Components/UserForm";
 
 const userPageSize: number = 10;
 
@@ -33,6 +34,7 @@ export const Users: FunctionComponent = () => {
   const [nextPageNumber, setNextPageNumber] = useState(1);
   const [selectedUser, setSelectedUser] = useState<UserInfo | null>(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [showUserForm, setShowUserForm] = useState(false);
 
   const fetchNextUser = async () => {
     const randomData = await fetchRandomUserData(nextPageNumber);
@@ -59,7 +61,7 @@ export const Users: FunctionComponent = () => {
   };
 
   const onCreateUser = () => {
-    console.log(`Create user`);
+    setShowUserForm(true);
   };
 
   const onConfirmDeleteModalClose = () => setShowConfirmDeleteModal(false);
@@ -83,45 +85,56 @@ export const Users: FunctionComponent = () => {
 
   return (
     <>
-      <Container>
-        <ConfirmDeleteModal
-          show={showConfirmDeleteModal}
-          title="Delete User"
-          body={`Are you sure you would like to delete ${getSelectedUserName()} ?`}
-          onHide={onConfirmDeleteModalClose}
-          onClose={onConfirmDeleteModalClose}
-          onDelete={onConfirmDeleteModalDelete}
-        ></ConfirmDeleteModal>
-        <Row className="mt-5">
-          <Col sm={8} className="users-list-container">
-            <UserList
-              users={userInfos}
-              onUserSelected={(user) => onUserClicked(user)}
-            ></UserList>
-          </Col>
-          <Col sm={4} className="user-details-card-container">
-            <Button style={{ marginLeft: "180px", marginBottom: "10px" }} variant="primary" onClick={onCreateUser}>
+      {showUserForm && (
+        <Container>
+          <UserForm></UserForm>
+        </Container>
+      )}
+      {!showUserForm && (
+        <Container>
+          <ConfirmDeleteModal
+            show={showConfirmDeleteModal}
+            title="Delete User"
+            body={`Are you sure you would like to delete ${getSelectedUserName()} ?`}
+            onHide={onConfirmDeleteModalClose}
+            onClose={onConfirmDeleteModalClose}
+            onDelete={onConfirmDeleteModalDelete}
+          ></ConfirmDeleteModal>
+          <Row className="mt-5">
+            <Col sm={8} className="users-list-container">
+              <UserList
+                users={userInfos}
+                onUserSelected={(user) => onUserClicked(user)}
+              ></UserList>
+            </Col>
+            <Col sm={4} className="user-details-card-container">
+              <Button
+                style={{ marginLeft: "180px", marginBottom: "10px" }}
+                variant="primary"
+                onClick={onCreateUser}
+              >
                 Create User
-            </Button>
-            {selectedUser && (
-              <UserCard
-                user={selectedUser}
-                title={getUserFullNameWithTitle(selectedUser)}
-                header={"User Details"}
-                onDelete={onUserDelete}
-                onEdit={onUserEdit}
-              ></UserCard>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={8}>
-            <Button onClick={() => fetchNextUser()} variant="secondary">
-              Fetch Next {userPageSize} Users
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+              </Button>
+              {selectedUser && (
+                <UserCard
+                  user={selectedUser}
+                  title={getUserFullNameWithTitle(selectedUser)}
+                  header={"User Details"}
+                  onDelete={onUserDelete}
+                  onEdit={onUserEdit}
+                ></UserCard>
+              )}
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={8}>
+              <Button onClick={() => fetchNextUser()} variant="secondary">
+                Fetch Next {userPageSize} Users
+              </Button>
+            </Col>
+          </Row>
+        </Container>
+      )}
     </>
   );
 };
