@@ -7,6 +7,7 @@ type UserCardProps = {
   title: string;
   header: string;
   onDelete: () => void;
+  onEdit: () => void;
 };
 
 export const UserCard: FunctionComponent<UserCardProps> = ({
@@ -14,6 +15,7 @@ export const UserCard: FunctionComponent<UserCardProps> = ({
   title,
   header,
   onDelete,
+  onEdit,
 }) => {
   return (
     <Card style={{ width: "18rem" }} bg="dark" text="white">
@@ -28,7 +30,7 @@ export const UserCard: FunctionComponent<UserCardProps> = ({
           <br />
           Gender: {user.gender}
         </Card.Text>
-        <Button variant="secondary">Something</Button>
+        <Button variant="secondary" onClick={onEdit}>Edit</Button>
         <Button className="float-end" variant="danger" onClick={onDelete}>
           Delete
         </Button>

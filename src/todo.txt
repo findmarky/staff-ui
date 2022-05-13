@@ -1,10 +1,7 @@
 TODOs
-
 - table selected user background color
 - table sort
-- table max height
 - table search
-- sticking load next button to bottom of table
 
 
 -------------------------------------------------

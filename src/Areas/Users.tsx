@@ -52,25 +52,29 @@ export const Users: FunctionComponent = () => {
 
   const onUserClicked = (userInfo: UserInfo) => setSelectedUser(userInfo);
 
-  const deleteUser = (uuid: string) => {
-    let filteredUserInfos = userInfos.filter(
-      (item) => item.login.uuid !== uuid
-    );
-    setUserInfos(filteredUserInfos);
-    setSelectedUser(null);
+  const onUserDelete = () => setShowConfirmDeleteModal(true);
+
+  const onUserEdit = () => {
+    console.log(`Edit user ${selectedUser?.email}`);
   };
 
-  const confirmUserDelete = () => setShowConfirmDeleteModal(true);
+  const onConfirmDeleteModalClose = () => setShowConfirmDeleteModal(false);
 
-  const handleConfirmDeleteModalClose = () => setShowConfirmDeleteModal(false);
-
-  const handleConfirmDeleteModalDelete = () => {
+  const onConfirmDeleteModalDelete = () => {
     deleteUser(selectedUser!.login.uuid);
     setShowConfirmDeleteModal(false);
   };
 
   const getSelectedUserName = (): string => {
     return selectedUser ? getUserFullNameWithTitle(selectedUser) : "";
+  };
+
+  const deleteUser = (uuid: string) => {
+    let filteredUserInfos = userInfos.filter(
+      (item) => item.login.uuid !== uuid
+    );
+    setUserInfos(filteredUserInfos);
+    setSelectedUser(null);
   };
 
   return (
@@ -80,24 +84,25 @@ export const Users: FunctionComponent = () => {
           show={showConfirmDeleteModal}
           title="Delete User"
           body={`Are you sure you would like to delete ${getSelectedUserName()} ?`}
-          onHide={handleConfirmDeleteModalClose}
-          onClose={handleConfirmDeleteModalClose}
-          onDelete={handleConfirmDeleteModalDelete}
+          onHide={onConfirmDeleteModalClose}
+          onClose={onConfirmDeleteModalClose}
+          onDelete={onConfirmDeleteModalDelete}
         ></ConfirmDeleteModal>
         <Row className="mt-5">
-          <Col sm={8} className="users-list">
+          <Col sm={8} className="users-list-container">
             <UserList
               users={userInfos}
               onUserSelected={(user) => onUserClicked(user)}
             ></UserList>
           </Col>
           {selectedUser && (
-            <Col sm={4} className="user-details-card">
+            <Col sm={4} className="user-details-card-container">
               <UserCard
                 user={selectedUser}
                 title={getUserFullNameWithTitle(selectedUser)}
                 header={"User Details"}
-                onDelete={confirmUserDelete}
+                onDelete={onUserDelete}
+                onEdit={onUserEdit}
               ></UserCard>
             </Col>
           )}

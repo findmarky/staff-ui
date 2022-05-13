@@ -1,11 +1,11 @@
-.user-details-card {
+.user-details-card-container {
   position: sticky;
   align-self: flex-start;
   top: 0;
   overflow-y: auto;
 }
 
-.users-list { 
+.users-list-container { 
     overflow-y:auto; 
     max-height:700px;
     margin-bottom: 25px;
