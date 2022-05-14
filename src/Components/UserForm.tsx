@@ -48,7 +48,7 @@ export const UserForm: FunctionComponent<UserFormProps> = ({
     };
   };
 
-  const getNewUserPicture = (isMale : boolean): Picture => {
+  const getNewUserPicture = (isMale: boolean): Picture => {
     return {
       thumbnail: isMale
         ? "https://randomuser.me/api/portraits/thumb/men/1.jpg"
@@ -63,14 +63,14 @@ export const UserForm: FunctionComponent<UserFormProps> = ({
   };
 
   const handleSubmit = (event: any) => {
+    event.preventDefault();
+
     const form = event.currentTarget;
     const isFormValid: boolean = form.checkValidity();
 
-    event.preventDefault();
-
     if (isFormValid) {
-      const user: UserInfo = createUserInfo();
-      onSave(user);
+      const newUser: UserInfo = createUserInfo();
+      onSave(newUser);
     } else {
       event.stopPropagation();
     }
