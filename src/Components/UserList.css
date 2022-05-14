@@ -1,5 +1,5 @@
-.user-list-table-header {
-  position: "sticky";
-  top: 0;
-  background: "white";
+Table thead {
+  position: sticky;
+  top: 0px;
+  background-color: white;
 }

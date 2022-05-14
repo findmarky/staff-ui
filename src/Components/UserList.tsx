@@ -17,7 +17,7 @@ export const UserList: FunctionComponent<UserListProps> = ({users, onUserSelecte
 
   return (
     <Table hover>
-      <thead className="user-list-table-header">
+      <thead >
         <tr>
           <th>Image</th>
           <th>Name</th>
