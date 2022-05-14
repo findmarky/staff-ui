@@ -58,6 +58,7 @@ export const Users: FunctionComponent = () => {
 
   const onUserEdit = () => {
     console.log(`Edit user ${selectedUser?.email}`);
+    setShowUserForm(true);
   };
 
   const onCreateUser = () => {
@@ -65,7 +66,16 @@ export const Users: FunctionComponent = () => {
   };
 
   const onSaveUser = (user: UserInfo) => {
-    const newUserInfos: UserInfo[] = [...userInfos, user];
+    const newUserInfos: UserInfo[] = [...userInfos];
+    const existingUser = newUserInfos.find((item) => item.login.uuid === user.login.uuid);   
+
+    if (existingUser === undefined) {    
+      newUserInfos.push(user);
+    } else {    
+      const indexOfUser = userInfos.indexOf(existingUser);   
+      newUserInfos[indexOfUser] = user;  
+    }
+
     setUserInfos(newUserInfos);
     setShowUserForm(false);
   };
@@ -86,7 +96,7 @@ export const Users: FunctionComponent = () => {
   };
 
   const deleteUser = (uuid: string) => {
-    let filteredUserInfos = userInfos.filter(
+    const filteredUserInfos = userInfos.filter(
       (item) => item.login.uuid !== uuid
     );
     setUserInfos(filteredUserInfos);
@@ -101,6 +111,7 @@ export const Users: FunctionComponent = () => {
             <UserForm
               onSave={(user) => onSaveUser(user)}
               onCancel={onCancelSaveUser}
+              user={selectedUser}
             ></UserForm>
           </Row>
         </Container>

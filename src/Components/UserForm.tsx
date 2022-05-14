@@ -1,27 +1,32 @@
 import { FunctionComponent, useState } from "react";
 import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
-import { UserInfo } from "../UserModel";
+import { Picture, UserInfo } from "../UserModel";
 import "./UserForm.css";
 import { v4 as uuidv4 } from "uuid";
 
 type UserFormProps = {
   onSave: (user: UserInfo) => void;
   onCancel: () => void;
+  user?: UserInfo | null;
 };
 
-export const UserForm: FunctionComponent<UserFormProps> = ({onSave, onCancel,}) => {
+export const UserForm: FunctionComponent<UserFormProps> = ({
+  onSave,
+  onCancel,
+  user,
+}) => {
   const [validated, setValidated] = useState(false);
-  const [title, setTitle] = useState("Mr");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [gender, setGender] = useState("male");
+
+  const [title, setTitle] = useState(user?.name?.title ?? "Mr");
+  const [firstName, setFirstName] = useState(user?.name?.first ?? "");
+  const [lastName, setLastName] = useState(user?.name?.last ?? "");
+  const [userName, setUserName] = useState(user?.login?.username ?? "");
+  const [email, setEmail] = useState(user?.email ?? "");
+  const [phoneNumber, setPhoneNumber] = useState(user?.phone ?? "");
+  const [gender, setGender] = useState(user?.gender ?? "male");
 
   const createUserInfo = (): UserInfo => {
     const isMale: boolean = gender === "male";
-
     return {
       name: {
         first: firstName,
@@ -29,23 +34,31 @@ export const UserForm: FunctionComponent<UserFormProps> = ({onSave, onCancel,}) 
         title: title,
       },
       login: {
-        uuid: uuidv4(),
-        username: userName,
+        uuid: user?.login?.uuid ?? uuidv4(),
+        username: user?.login?.username ?? userName,
       },
       email: email,
       phone: phoneNumber,
       gender: gender,
-      picture: {
-        thumbnail: isMale
-          ? "https://randomuser.me/api/portraits/thumb/men/1.jpg"
-          : "https://randomuser.me/api/portraits/thumb/women/1.jpg",
-        medium: isMale
-          ? "https://randomuser.me/api/portraits/med/men/1.jpg"
-          : "https://randomuser.me/api/portraits/med/women/1.jpg",
-        large: isMale
-          ? "https://randomuser.me/api/portraits/men/1.jpg"
-          : "https://randomuser.me/api/portraits/women/1.jpg",
-      },
+      picture: user == null ? getNewUserPicture(isMale) : {
+        thumbnail: user.picture.thumbnail,
+        medium: user.picture.medium,
+        large: user.picture.large
+      }
+    };
+  };
+
+  const getNewUserPicture = (isMale : boolean): Picture => {
+    return {
+      thumbnail: isMale
+        ? "https://randomuser.me/api/portraits/thumb/men/1.jpg"
+        : "https://randomuser.me/api/portraits/thumb/women/1.jpg",
+      medium: isMale
+        ? "https://randomuser.me/api/portraits/med/men/1.jpg"
+        : "https://randomuser.me/api/portraits/med/women/1.jpg",
+      large: isMale
+        ? "https://randomuser.me/api/portraits/men/1.jpg"
+        : "https://randomuser.me/api/portraits/women/1.jpg",
     };
   };
 
