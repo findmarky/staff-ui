@@ -42,7 +42,7 @@ export interface Location {
 
 export interface UserInfo {
     name: Name;
-    location: Location;
+  //  location: Location;
     login: Login;
     email: string;
     phone: string;

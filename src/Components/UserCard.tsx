@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { Button, Card } from "react-bootstrap";
 import { UserInfo } from "../UserModel";
+import "./UserCard.css"
 
 type UserCardProps = {
   user: UserInfo;
@@ -18,7 +19,7 @@ export const UserCard: FunctionComponent<UserCardProps> = ({
   onEdit,
 }) => {
   return (
-    <Card style={{ width: "18rem" }} bg="dark" text="white">
+    <Card className="user-card">
       <Card.Header>{header}</Card.Header>
       <Card.Img variant="top" src={user.picture.large} />
       <Card.Body>

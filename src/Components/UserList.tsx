@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { Table } from "react-bootstrap";
 import { UserInfo } from "../UserModel";
+import "./UserList.css"
 
 type UserListProps = {
   users: UserInfo[];
@@ -15,8 +16,8 @@ export const UserList: FunctionComponent<UserListProps> = ({users, onUserSelecte
   };
 
   return (
-    <Table hover borderless={true} variant="dark">
-      <thead style={{ position: 'sticky', top: 0 }}>
+    <Table hover>
+      <thead className="user-list-table-header">
         <tr>
           <th>Image</th>
           <th>Name</th>
