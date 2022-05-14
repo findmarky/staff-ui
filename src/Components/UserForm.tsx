@@ -1,14 +1,21 @@
 import { FunctionComponent, useState } from "react";
-import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
+import {
+  Button, 
+  Col,
+  Form,
+  InputGroup,
+  Row,
+} from "react-bootstrap";
 import { UserInfo } from "../UserModel";
 import "./UserForm.css";
 import { v4 as uuidv4 } from "uuid";
 
 type UserFormProps = {
   onSave: (user: UserInfo) => void;
+  onCancel: () => void;
 };
 
-export const UserForm: FunctionComponent<UserFormProps> = ({ onSave }) => {
+export const UserForm: FunctionComponent<UserFormProps> = ({ onSave, onCancel }) => {
   const [validated, setValidated] = useState(false);
   const [title, setTitle] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -56,12 +63,20 @@ export const UserForm: FunctionComponent<UserFormProps> = ({ onSave }) => {
   };
 
   return (
-    <Form noValidate validated={validated} onSubmit={handleSubmit} className="user-form" >
+    <Form
+      noValidate
+      validated={validated}
+      onSubmit={handleSubmit}
+      className="user-form"
+    >
       <h4>Create User</h4>
       <Row className="mb-3">
         <Form.Group as={Col} md="4" controlId="validationCustomTitle">
           <Form.Label>Title</Form.Label>
-          <Form.Select value={title} onChange={({ target: { value } }) => setTitle(value)} >
+          <Form.Select
+            value={title}
+            onChange={({ target: { value } }) => setTitle(value)}
+          >
             <option value="Mr">Mr</option>
             <option value="Mrs">Mrs</option>
             <option value="Ms">Ms</option>
@@ -163,6 +178,9 @@ export const UserForm: FunctionComponent<UserFormProps> = ({ onSave }) => {
 
       <Button className="mt-4" variant="primary" type="submit">
         Save
+      </Button>
+      <Button className="mt-4 ms-3" variant="secondary" onClick={onCancel}>
+        Cancel
       </Button>
     </Form>
   );

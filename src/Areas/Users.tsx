@@ -70,6 +70,10 @@ export const Users: FunctionComponent = () => {
     setUserInfos(newUserInfos);
   };
 
+  const onCancelSaveUser = () => {
+    setShowUserForm(false);
+  };
+
   const onConfirmDeleteModalClose = () => setShowConfirmDeleteModal(false);
 
   const onConfirmDeleteModalDelete = () => {
@@ -94,7 +98,10 @@ export const Users: FunctionComponent = () => {
       {showUserForm && (
         <Container>
           <Row className="mt-5">
-            <UserForm onSave={(user) => onSaveUser(user)}></UserForm>
+            <UserForm
+              onSave={(user) => onSaveUser(user)}
+              onCancel={onCancelSaveUser}
+            ></UserForm>
           </Row>
         </Container>
       )}
@@ -115,16 +122,12 @@ export const Users: FunctionComponent = () => {
                 onUserSelected={(user) => onUserClicked(user)}
               ></UserList>
             </Col>
-            <Col sm={4} className="user-details-card-container">        
-              <Button
-                className="mb-3"
-                variant="primary"
-                onClick={onCreateUser}
-              >
+            <Col sm={4} className="user-details-card-container">
+              <Button className="mb-3" variant="primary" onClick={onCreateUser}>
                 Create User
               </Button>
               {selectedUser && (
-                <UserCard 
+                <UserCard
                   user={selectedUser}
                   title={getUserFullNameWithTitle(selectedUser)}
                   header={"User Details"}

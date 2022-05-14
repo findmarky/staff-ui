@@ -41,8 +41,7 @@ export interface Location {
 }
 
 export interface UserInfo {
-    name: Name;
-  //  location: Location;
+    name: Name;  
     login: Login;
     email: string;
     phone: string;
