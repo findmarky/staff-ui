@@ -65,9 +65,9 @@ export const Users: FunctionComponent = () => {
   };
 
   const onSaveUser = (user: UserInfo) => {
-    console.warn(`Save User ${user}`);
     const newUserInfos: UserInfo[] = [...userInfos, user];
     setUserInfos(newUserInfos);
+    setShowUserForm(false);
   };
 
   const onCancelSaveUser = () => {

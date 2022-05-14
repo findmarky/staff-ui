@@ -51,11 +51,12 @@ export const UserForm: FunctionComponent<UserFormProps> = ({ onSave, onCancel })
     const form = event.currentTarget;
     const isFormValid: boolean = form.checkValidity();
 
+    event.preventDefault();
+
     if (isFormValid) {
       const user: UserInfo = createUserInfo();
       onSave(user);
     } else {
-      event.preventDefault();
       event.stopPropagation();
     }
 
