@@ -1,11 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import {
-  Button, 
-  Col,
-  Form,
-  InputGroup,
-  Row,
-} from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { UserInfo } from "../UserModel";
 import "./UserForm.css";
 import { v4 as uuidv4 } from "uuid";
@@ -15,17 +9,19 @@ type UserFormProps = {
   onCancel: () => void;
 };
 
-export const UserForm: FunctionComponent<UserFormProps> = ({ onSave, onCancel }) => {
+export const UserForm: FunctionComponent<UserFormProps> = ({onSave, onCancel,}) => {
   const [validated, setValidated] = useState(false);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("Mr");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("male");
 
   const createUserInfo = (): UserInfo => {
+    const isMale: boolean = gender === "male";
+
     return {
       name: {
         first: firstName,
@@ -40,9 +36,15 @@ export const UserForm: FunctionComponent<UserFormProps> = ({ onSave, onCancel })
       phone: phoneNumber,
       gender: gender,
       picture: {
-        thumbnail: "",
-        medium: "",
-        large: "",
+        thumbnail: isMale
+          ? "https://randomuser.me/api/portraits/thumb/men/1.jpg"
+          : "https://randomuser.me/api/portraits/thumb/women/1.jpg",
+        medium: isMale
+          ? "https://randomuser.me/api/portraits/med/men/1.jpg"
+          : "https://randomuser.me/api/portraits/med/women/1.jpg",
+        large: isMale
+          ? "https://randomuser.me/api/portraits/men/1.jpg"
+          : "https://randomuser.me/api/portraits/women/1.jpg",
       },
     };
   };
