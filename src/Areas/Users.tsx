@@ -35,6 +35,8 @@ export const Users: FunctionComponent = () => {
   const [selectedUser, setSelectedUser] = useState<UserInfo | null>(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showUserForm, setShowUserForm] = useState(false);
+  const [editUser, setEditUser] = useState(false);
+
 
   const fetchNextUser = async () => {
     const randomData = await fetchRandomUserData(nextPageNumber);
@@ -57,23 +59,24 @@ export const Users: FunctionComponent = () => {
   const onUserDelete = () => setShowConfirmDeleteModal(true);
 
   const onUserEdit = () => {
-    console.log(`Edit user ${selectedUser?.email}`);
+    setEditUser(true);
     setShowUserForm(true);
   };
 
   const onCreateUser = () => {
+    setEditUser(false);
     setShowUserForm(true);
   };
 
   const onSaveUser = (user: UserInfo) => {
     const newUserInfos: UserInfo[] = [...userInfos];
-    const existingUser = newUserInfos.find((item) => item.login.uuid === user.login.uuid);   
+    const existingUser = newUserInfos.find((item) => item.login.uuid === user.login.uuid);
 
-    if (existingUser === undefined) {    
+    if (existingUser === undefined) {
       newUserInfos.push(user);
-    } else {    
-      const indexOfUser = userInfos.indexOf(existingUser);   
-      newUserInfos[indexOfUser] = user;  
+    } else {
+      const indexOfUser = userInfos.indexOf(existingUser);
+      newUserInfos[indexOfUser] = user;
     }
 
     setUserInfos(newUserInfos);
@@ -111,7 +114,7 @@ export const Users: FunctionComponent = () => {
             <UserForm
               onSave={(user) => onSaveUser(user)}
               onCancel={onCancelSaveUser}
-              user={selectedUser}
+              user={editUser ? selectedUser : null}
             ></UserForm>
           </Row>
         </Container>
