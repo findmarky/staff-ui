@@ -130,13 +130,13 @@ export const Users: FunctionComponent = () => {
             onDelete={onConfirmDeleteModalDelete}
           ></ConfirmDeleteModal>
           <Row className="mt-5">
-            <Col sm={8} className="users-list-container">
+            <Col sm={9} className="users-list-container">
               <UserList
                 users={userInfos}
                 onUserSelected={(user) => onUserClicked(user)}
               ></UserList>
             </Col>
-            <Col sm={4} className="user-details-card-container">
+            <Col sm={3} className="user-details-card-container">
               <Button className="mb-3" variant="primary" onClick={onCreateUser}>
                 Create User
               </Button>
@@ -152,7 +152,7 @@ export const Users: FunctionComponent = () => {
             </Col>
           </Row>
           <Row>
-            <Col sm={8}>
+            <Col sm={2}>
               <Button onClick={() => fetchNextUser()} variant="secondary">
                 Fetch Next {userPageSize} Users
               </Button>

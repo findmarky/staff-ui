@@ -11,8 +11,3 @@ Add new user.
 Nav bar pages
 Application landing page.
 Google Map - location Lat/Long
-
-
-When editing an existing user does it make sense to create a copy ??? or just edit the existing one... 
-
-
