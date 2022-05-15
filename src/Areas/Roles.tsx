@@ -1,7 +1,10 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { Button, Card, Container, Row, Col } from "react-bootstrap";
 import { chunk } from "lodash";
 import { v4 as uuidv4 } from "uuid";
+import { UserList } from "../Components/UserList";
+import { UserInfo } from "../UserModel";
+import { fetchRandomUserData } from "../UserService";
 
 interface Role {
   id: String;
@@ -11,11 +14,12 @@ interface Role {
 
 type RoleCardPros = {
   role: Role;
+  onRoleSelected: (role : Role) => void;
 };
 
-export const RoleCard: FunctionComponent<RoleCardPros> = ({ role }) => {
-  const onCardClick = () => {
-    console.log(`Role card clicked. Role: ${role.name}  Id: ${role.id}`);
+export const RoleCard: FunctionComponent<RoleCardPros> = ({ role, onRoleSelected }) => {
+  const onCardClick = () => {   
+    onRoleSelected(role);
   };
 
   return (
@@ -34,6 +38,9 @@ export const RoleCard: FunctionComponent<RoleCardPros> = ({ role }) => {
 const NumberOfRolesInARow = 3;
 
 export const Roles: FunctionComponent = () => {
+  const [showUsersWithRole, setShowUsersWithRole] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const [userInfos, setUserInfos] = useState<UserInfo[]>([]);
 
   const roles: Role[] = [
     { id: "101", name: "Controller", description: "In a corporate environment, a controller supervises all other accounting staff and usually reports to a chief financial officer or director of finance." },
@@ -48,17 +55,56 @@ export const Roles: FunctionComponent = () => {
 
   const rowsOfRoles: Role[][] = chunk(roles, NumberOfRolesInARow);
 
+  const onRoleSelected = async (role : Role) => {
+    console.log(`Role card clicked. Role: ${role.name}  Id: ${role.id}`);
+    setSelectedRole(role);
+    setShowUsersWithRole(true);
+
+    // A random number (range 1-6) of users.
+    const randomPageSize = Math.floor(Math.random() * 6) + 1; 
+
+    const randomData = await fetchRandomUserData(1, randomPageSize);
+    if(randomData === undefined) {
+      console.warn(`No users for role ${role.name}`)
+      return;
+    }
+
+    const userInfosWithMatchingRole : UserInfo[] = [...randomData.results];
+    setUserInfos(userInfosWithMatchingRole);  
+  };
+
+  const onBackClicked = () => {
+    setSelectedRole(null);
+    setShowUsersWithRole(false);
+  };
+
   return (
     <Container>
-      {rowsOfRoles.map((rowOfRoles: Role[], rowIndex: number) => (
-        <Row key={rowIndex} className="mt-4">
-          {rowOfRoles.map((role: Role) => (
-            <Col key={uuidv4()} sm={4}>
-              <RoleCard key={role.id.toString()} role={role}></RoleCard>
-            </Col>
-          ))}
-        </Row>
-      ))}
+      {showUsersWithRole && (
+        <>  
+        <UserList users={userInfos} onUserSelected={(user: UserInfo) => { console.log(`User selected in roles component ${user.email}`); }}></UserList>
+        <Row>
+          <Col sm={2}>
+            <Button variant="secondary" onClick={onBackClicked}>Back</Button>
+          </Col>
+        </Row>     
+        </>      
+      )}
+
+      {!showUsersWithRole &&
+        rowsOfRoles.map((rowOfRoles: Role[], rowIndex: number) => (
+          <Row key={rowIndex} className="mt-4">
+            {rowOfRoles.map((role: Role) => (
+              <Col key={uuidv4()} sm={4}>
+                <RoleCard
+                  key={role.id.toString()}
+                  role={role}
+                  onRoleSelected={onRoleSelected}
+                ></RoleCard>
+              </Col>
+            ))}
+          </Row>
+        ))}
     </Container>
   );
 };

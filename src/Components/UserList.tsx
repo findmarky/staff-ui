@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { Table } from "react-bootstrap";
 import { UserInfo } from "../UserModel";
+import { getUserFullName } from "../UserService";
 import "./UserList.css"
 
 type UserListProps = {
@@ -8,13 +9,7 @@ type UserListProps = {
   onUserSelected: (user: UserInfo) => void;
 };
 
-export const UserList: FunctionComponent<UserListProps> = ({users, onUserSelected,}) => {
-    
-  const getUserFullName = (userInfo: UserInfo): string => {
-    const {name: { first, last }, } = userInfo;
-    return `${first} ${last}`;
-  };
-
+export const UserList: FunctionComponent<UserListProps> = ({users, onUserSelected,}) => {    
   return (
     <Table hover>
       <thead >

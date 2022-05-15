@@ -1,5 +1,4 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import axios from "axios";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { UserInfo } from "../UserModel";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal";
@@ -7,27 +6,7 @@ import { UserList } from "../Components/UserList";
 import { UserCard } from "../Components/UserCard";
 import "./Users.css";
 import { UserForm } from "../Components/UserForm";
-
-const userPageSize: number = 10;
-
-const fetchRandomUserData = async (pageNumber: number) => {
-  const randomData = await axios
-    .get(`https://randomuser.me/api?results=${userPageSize}&page=${pageNumber}`)
-    .then(({ data }) => {
-      return data;
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  return randomData;
-};
-
-const getUserFullNameWithTitle = (userInfo: UserInfo): string => {
-  const {
-    name: { first, last, title },
-  } = userInfo;
-  return `${title} ${first} ${last}`;
-};
+import { fetchRandomUserData, defaultUserPageSize, getUserFullName } from "../UserService"
 
 export const Users: FunctionComponent = () => {
   const [userInfos, setUserInfos] = useState<UserInfo[]>([]);
@@ -38,7 +17,7 @@ export const Users: FunctionComponent = () => {
   const [editUser, setEditUser] = useState(false);
 
 
-  const fetchNextUser = async () => {
+  const fetchUsers = async () => {
     const randomData = await fetchRandomUserData(nextPageNumber);
     if (randomData === undefined) {
       return;
@@ -51,7 +30,7 @@ export const Users: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    fetchNextUser();
+    fetchUsers();
   }, []);
 
   const onUserClicked = (userInfo: UserInfo) => setSelectedUser(userInfo);
@@ -95,7 +74,7 @@ export const Users: FunctionComponent = () => {
   };
 
   const getSelectedUserName = (): string => {
-    return selectedUser ? getUserFullNameWithTitle(selectedUser) : "";
+    return selectedUser ? getUserFullName(selectedUser, true) : "";
   };
 
   const deleteUser = (uuid: string) => {
@@ -143,7 +122,7 @@ export const Users: FunctionComponent = () => {
               {selectedUser && (
                 <UserCard
                   user={selectedUser}
-                  title={getUserFullNameWithTitle(selectedUser)}
+                  title={getUserFullName(selectedUser, true)}
                   header={"User Details"}
                   onDelete={onUserDelete}
                   onEdit={onUserEdit}
@@ -153,8 +132,8 @@ export const Users: FunctionComponent = () => {
           </Row>
           <Row>
             <Col sm={2}>
-              <Button onClick={() => fetchNextUser()} variant="secondary">
-                Fetch Next {userPageSize} Users
+              <Button onClick={() => fetchUsers()} variant="secondary">
+                Fetch Next {defaultUserPageSize} Users
               </Button>
             </Col>
           </Row>

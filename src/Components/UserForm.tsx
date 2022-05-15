@@ -17,13 +17,13 @@ export const UserForm: FunctionComponent<UserFormProps> = ({
 }) => {
   const [validated, setValidated] = useState(false);
 
-  const [title, setTitle] = useState(user?.name?.title ?? "Mr");
+  const [title, setTitle] = useState(user?.name?.title ?? "");
   const [firstName, setFirstName] = useState(user?.name?.first ?? "");
   const [lastName, setLastName] = useState(user?.name?.last ?? "");
   const [userName, setUserName] = useState(user?.login?.username ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
   const [phoneNumber, setPhoneNumber] = useState(user?.phone ?? "");
-  const [gender, setGender] = useState(user?.gender ?? "male");
+  const [gender, setGender] = useState(user?.gender ?? "");
 
   const createUserInfo = (): UserInfo => {
     const isMale: boolean = gender === "male";
@@ -40,11 +40,14 @@ export const UserForm: FunctionComponent<UserFormProps> = ({
       email: email,
       phone: phoneNumber,
       gender: gender,
-      picture: user == null ? getNewUserPicture(isMale) : {
-        thumbnail: user.picture.thumbnail,
-        medium: user.picture.medium,
-        large: user.picture.large
-      }
+      picture:
+        user == null
+          ? getNewUserPicture(isMale)
+          : {
+              thumbnail: user.picture.thumbnail,
+              medium: user.picture.medium,
+              large: user.picture.large,
+            },
     };
   };
 
@@ -90,9 +93,11 @@ export const UserForm: FunctionComponent<UserFormProps> = ({
         <Form.Group as={Col} md="4" controlId="validationCustomTitle">
           <Form.Label>Title</Form.Label>
           <Form.Select
+            required
             value={title}
             onChange={({ target: { value } }) => setTitle(value)}
           >
+            <option></option>
             <option value="Mr">Mr</option>
             <option value="Mrs">Mrs</option>
             <option value="Ms">Ms</option>
@@ -100,6 +105,9 @@ export const UserForm: FunctionComponent<UserFormProps> = ({
             <option value="Sir">Sir</option>
             <option value="Madam">Madam</option>
           </Form.Select>
+          <Form.Control.Feedback type="invalid">
+            Please select a title.
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group as={Col} md="4" controlId="validationCustomFirstName">
@@ -136,6 +144,7 @@ export const UserForm: FunctionComponent<UserFormProps> = ({
           <Form.Label>Username</Form.Label>
           <InputGroup hasValidation>
             <Form.Control
+              disabled={user !== null}
               type="text"
               placeholder="Username"
               aria-describedby="inputGroupPrepend"
@@ -183,12 +192,17 @@ export const UserForm: FunctionComponent<UserFormProps> = ({
         <Form.Group as={Col} md="4" controlId="validationCustomGender">
           <Form.Label>Gender</Form.Label>
           <Form.Select
+            required
             value={gender}
             onChange={({ target: { value } }) => setGender(value)}
           >
+            <option></option>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </Form.Select>
+          <Form.Control.Feedback type="invalid">
+            Please select a gender.
+          </Form.Control.Feedback>
         </Form.Group>
       </Row>
 
