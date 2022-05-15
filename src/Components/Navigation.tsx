@@ -3,7 +3,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 
 export const Navigation: FunctionComponent = () => {
   return (
-    <Navbar bg="dark" expand="lg" variant="dark" sticky="top">
+    <Navbar bg="secondary" expand="lg" sticky="top" variant="dark">
       <Container>
         <Navbar.Brand href="/">Application</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

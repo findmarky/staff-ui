@@ -15,7 +15,7 @@ type RoleCardPros = {
 
 export const RoleCard: FunctionComponent<RoleCardPros> = ({ role }) => {
   const onCardClick = () => {
-    console.log(`Card Clicked. Role: ${role.name}`);
+    console.log(`Role card clicked. Role: ${role.name}  Id: ${role.id}`);
   };
 
   return (
@@ -25,7 +25,7 @@ export const RoleCard: FunctionComponent<RoleCardPros> = ({ role }) => {
         <Card.Text>
           {role.description}
         </Card.Text>
-        <Button variant="primary">Something</Button>
+        <Button size="sm" variant="secondary">View Users with Role</Button>
       </Card.Body>
     </Card>
   );
