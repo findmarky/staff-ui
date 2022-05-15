@@ -129,7 +129,7 @@ export const Users: FunctionComponent = () => {
             onClose={onConfirmDeleteModalClose}
             onDelete={onConfirmDeleteModalDelete}
           ></ConfirmDeleteModal>
-          <Row className="mt-5">
+          <Row className="mt-4">
             <Col sm={9} className="users-list-container">
               <UserList
                 users={userInfos}
