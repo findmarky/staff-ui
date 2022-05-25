@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { Button, Card } from "react-bootstrap";
 import { UserInfo } from "../UserModel";
+import { UserLocationMap } from "./UserLocationMap";
 import "./UserCard.css"
 
 type UserCardProps = {
@@ -35,6 +36,12 @@ export const UserCard: FunctionComponent<UserCardProps> = ({
         <Button className="float-end" variant="danger" onClick={onDelete}>
           Delete
         </Button>
+        {
+          user.location && (
+            <div className="mt-3" >
+              <UserLocationMap latitude={Number(user.location?.coordinates.latitude)} longitude={Number(user.location?.coordinates.longitude)}></UserLocationMap>
+            </div>
+          )}
       </Card.Body>
     </Card>
   );
