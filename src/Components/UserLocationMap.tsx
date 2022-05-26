@@ -9,11 +9,11 @@ type UserLocationMapProps = {
     longitude: number;
 }
 
+let mapMarkers: mapboxgl.Marker[] = [];
+
 export const UserLocationMap: FunctionComponent<UserLocationMapProps> = ({ latitude, longitude }) => {
     const mapContainer = useRef<any>(null);
     const map = useRef<any>(null);
-
-    let marker: mapboxgl.Marker;
 
     useEffect(() => {
         if (map.current) {
@@ -34,7 +34,11 @@ export const UserLocationMap: FunctionComponent<UserLocationMapProps> = ({ latit
             });
         }
 
-        marker = new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map.current);
+        mapMarkers.forEach((marker) => marker.remove());
+        mapMarkers = [];
+
+        let marker = new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map.current);
+        mapMarkers.push(marker);
     });
 
     return (
