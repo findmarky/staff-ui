@@ -1,12 +1,12 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Button, Container, Row, Col } from "react-bootstrap";
-import { UserInfo } from "../UserModel";
+import { UserInfo } from "../Models/UserModel";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal";
 import { UserList } from "../Components/UserList";
-import { UserCard } from "../Components/UserCard";
-import "./Users.css";
+import { UserCard } from "../Components/Cards/UserCard";
 import { UserForm } from "../Components/UserForm";
 import { fetchRandomUserData, defaultUserPageSize, getUserFullName } from "../UserService"
+import "./Users.css";
 
 export const Users: FunctionComponent = () => {
   const [userInfos, setUserInfos] = useState<UserInfo[]>([]);
@@ -16,7 +16,6 @@ export const Users: FunctionComponent = () => {
   const [showUserForm, setShowUserForm] = useState(false);
   const [editUser, setEditUser] = useState(false);
 
-
   const fetchUsers = async () => {
     const randomData = await fetchRandomUserData(nextPageNumber);
     if (randomData === undefined) {
@@ -24,7 +23,6 @@ export const Users: FunctionComponent = () => {
     }
 
     const newUserInfos: UserInfo[] = [...userInfos, ...randomData.results];
-
     setUserInfos(newUserInfos);
     setNextPageNumber(randomData.info.page + 1);
   };

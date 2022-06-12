@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { Table } from "react-bootstrap";
-import { UserInfo } from "../UserModel";
+import { UserInfo } from "../Models/UserModel";
 import { getUserFullName } from "../UserService";
 import "./UserList.css"
 

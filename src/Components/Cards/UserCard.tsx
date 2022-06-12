@@ -1,8 +1,7 @@
 import { FunctionComponent } from "react";
 import { Button, Card } from "react-bootstrap";
-import { UserInfo } from "../UserModel";
-import { UserLocationMap } from "./UserLocationMap";
-import "./UserCard.css"
+import { UserInfo } from "../../Models/UserModel";
+import { UserLocationMap } from "../UserLocationMap";
 
 type UserCardProps = {
   user: UserInfo;

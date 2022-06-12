@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
-import { Picture, UserInfo } from "../UserModel";
+import { Picture, UserInfo } from "../Models/UserModel";
 import "./UserForm.css";
 import { v4 as uuidv4 } from "uuid";
 

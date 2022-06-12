@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UserInfo } from "./UserModel";
+import { UserInfo } from "./Models/UserModel";
 
 export const defaultUserPageSize: number = 10;
 

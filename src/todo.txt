@@ -1,13 +1,4 @@
 TODOs
-- table selected user background color
-- table sort
-- table search
-
-
--------------------------------------------------
-                    Features
--------------------------------------------------
-Add new user.
-Nav bar pages
-Application landing page.
-Google Map - location Lat/Long
+- Set table selected row background color
+- Table sort by column header
+- Table search

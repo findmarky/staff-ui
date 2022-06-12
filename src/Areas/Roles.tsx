@@ -1,39 +1,12 @@
 import { FunctionComponent, useState } from "react";
-import { Button, Card, Container, Row, Col } from "react-bootstrap";
+import { Button, Container, Row, Col } from "react-bootstrap";
 import { chunk } from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { UserList } from "../Components/UserList";
-import { UserInfo } from "../UserModel";
+import { UserInfo } from "../Models/UserModel";
 import { fetchRandomUserData } from "../UserService";
-
-interface Role {
-  id: String;
-  name: String;
-  description: String;
-}
-
-type RoleCardPros = {
-  role: Role;
-  onRoleSelected: (role : Role) => void;
-};
-
-export const RoleCard: FunctionComponent<RoleCardPros> = ({ role, onRoleSelected }) => {
-  const onCardClick = () => {   
-    onRoleSelected(role);
-  };
-
-  return (
-    <Card bg="Light" text={"dark"} onClick={onCardClick}>
-      <Card.Header>{role.name}</Card.Header>
-      <Card.Body>
-        <Card.Text>
-          {role.description}
-        </Card.Text>
-        <Button size="sm" variant="secondary">View Users with Role</Button>
-      </Card.Body>
-    </Card>
-  );
-};
+import { Role } from "../Models/Role";
+import { RoleCard } from "../Components/Cards/RoleCard";
 
 const NumberOfRolesInARow = 3;
 
