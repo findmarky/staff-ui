@@ -114,7 +114,7 @@ export const Users: FunctionComponent = () => {
               ></UserList>
             </Col>
             <Col sm={3} className="user-details-card-container">
-              <Button className="mb-3" variant="primary" onClick={onCreateUser}>
+              <Button className="mb-3" variant="secondary" onClick={onCreateUser}>
                 Create User
               </Button>
               {selectedUser && (
@@ -130,7 +130,7 @@ export const Users: FunctionComponent = () => {
           </Row>
           <Row>
             <Col sm={2}>
-              <Button onClick={() => fetchUsers()} variant="secondary">
+              <Button onClick={() => fetchUsers()} variant="primary">
                 Fetch Next {defaultUserPageSize} Users
               </Button>
             </Col>

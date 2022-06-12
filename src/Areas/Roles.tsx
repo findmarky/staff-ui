@@ -58,7 +58,7 @@ export const Roles: FunctionComponent = () => {
         <UserList users={userInfos} onUserSelected={(user: UserInfo) => { console.log(`User selected in roles component ${user.email}`); }}></UserList>
         <Row>
           <Col sm={2}>
-            <Button variant="secondary" onClick={onBackClicked}>Back</Button>
+            <Button variant="primary" onClick={onBackClicked}>Back</Button>
           </Col>
         </Row>     
         </>      

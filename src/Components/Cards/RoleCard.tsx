@@ -19,7 +19,7 @@ type RoleCardPros = {
           <Card.Text>
             {role.description}
           </Card.Text>
-          <Button size="sm" variant="secondary">View Users with Role</Button>
+          <Button size="sm" variant="primary">View Users with Role</Button>
         </Card.Body>
       </Card>
     );
